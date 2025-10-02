@@ -4,23 +4,25 @@
 	<meta charset="UTF-8">
 	<title>Book Management</title>
 	<!-- Bootstrap CSS -->
-	<link href="/webjars/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/webjars/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<div class="container my-5">
+<div class="container my-5 flex-grow-1">
 	<h1 class="mb-4 text-center">📚 Book Management</h1>
 
 	<!-- Tabs navigation -->
 	<ul class="nav nav-tabs" id="bookTab" role="tablist">
 		<li class="nav-item" role="presentation">
-			<button aria-controls="list" aria-selected="true" class="nav-link active" data-bs-target="#list" data-bs-toggle="tab"
+			<button aria-controls="list" aria-selected="true" class="nav-link active" data-bs-target="#list"
+					data-bs-toggle="tab"
 					id="list-tab" role="tab" type="button">
 				Available Books
 			</button>
 		</li>
 		<li class="nav-item" role="presentation">
-			<button aria-controls="add" aria-selected="false" class="nav-link" data-bs-target="#add" data-bs-toggle="tab" id="add-tab"
+			<button aria-controls="add" aria-selected="false" class="nav-link" data-bs-target="#add"
+					data-bs-toggle="tab" id="add-tab"
 					role="tab" type="button">
 				Add New Book
 			</button>
@@ -74,7 +76,14 @@
 	</div>
 </div>
 
-<!-- Bootstrap JS (optional, for components like modals) -->
+<!-- Footer -->
+<footer class="bg-light text-center py-3 mt-auto border-top">
+	<div class="container">
+		<span class="text-muted">&copy; 2025 MyBookApp</span>
+	</div>
+</footer>
+
+<!-- Bootstrap JS -->
 <script src="/webjars/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <!-- Custom JS -->
@@ -138,7 +147,7 @@
                 document.getElementById('book-author').value = '';
                 successBox.style.display = 'block';
                 setTimeout(() => successBox.style.display = 'none', 2000);
-                fetchBooks(); // Refresh the list
+                fetchBooks();
             })
             .catch(err => {
                 console.error(err);
@@ -146,7 +155,7 @@
             });
     });
 
-    // Fetch books when Available Books tab is shown
+    // Refresh books when Available Books tab is shown
     document.getElementById('list-tab').addEventListener('shown.bs.tab', fetchBooks);
 
     // Initial load
