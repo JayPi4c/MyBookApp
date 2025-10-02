@@ -27,12 +27,21 @@
 				Add New Book
 			</button>
 		</li>
+
+		<!-- Right group -->
+		<li class="nav-item ms-auto" role="presentation">
+			<button aria-controls="about" aria-selected="false"
+					class="nav-link" data-bs-target="#about" data-bs-toggle="tab"
+					id="about-tab" role="tab" type="button">About
+			</button>
+		</li>
 	</ul>
 
 	<!-- Tab Contents -->
 	<div class="tab-content mt-4" id="bookTabContent">
 		<div th:replace="~{fragments/bookList :: bookListContent}"></div>
 		<div th:replace="~{fragments/addBook :: addBookContent}"></div>
+		<div th:replace="~{fragments/about :: aboutContent}"></div>
 	</div>
 </div>
 
