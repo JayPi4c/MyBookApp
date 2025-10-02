@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="addBookContent">
-	<!-- Add Book Tab -->
-	<div aria-labelledby="add-tab" class="tab-pane fade" id="add" role="tabpanel">
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Add a New Book</h5>
-				<form id="add-book-form">
-					<div class="mb-3">
-						<label class="form-label" for="book-name">Book Name</label>
-						<input class="form-control" id="book-name" required type="text">
-					</div>
-					<div class="mb-3">
-						<label class="form-label" for="book-author">Author</label>
-						<input class="form-control" id="book-author" required type="text">
-					</div>
-					<button class="btn btn-primary" type="submit">Add Book</button>
-				</form>
-			</div>
+<!-- Add Book Tab -->
+<div aria-labelledby="add-tab" class="tab-pane fade" id="add" role="tabpanel" th:fragment="addBookContent">
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">Add a New Book</h5>
+			<form id="add-book-form">
+				<div class="mb-3">
+					<label class="form-label" for="book-name">Book Name</label>
+					<input class="form-control" id="book-name" required type="text">
+				</div>
+				<div class="mb-3">
+					<label class="form-label" for="book-author">Author</label>
+					<input class="form-control" id="book-author" required type="text">
+				</div>
+				<button class="btn btn-primary" type="submit">Add Book</button>
+			</form>
 		</div>
-		<div class="alert alert-success mt-3" id="add-success" style="display: none;">
-			Book added successfully!
-		</div>
+	</div>
+	<div class="alert alert-success mt-3" id="add-success" style="display: none;">
+		Book added successfully!
 	</div>
 </div>
 </body>
