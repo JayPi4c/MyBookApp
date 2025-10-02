@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Book List</title>
+	<!-- Bootstrap CSS -->
+	<link href="/webjars/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="container my-5">
+	<h1 class="mb-4 text-center">📚 Available Books</h1>
+
+	<!-- Loading spinner -->
+	<div class="text-center my-4" id="loading">
+		<div class="spinner-border text-primary" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+
+	<!-- Book list -->
+	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="book-container" style="display: none;">
+		<!-- Cards will be inserted here by JS -->
+	</div>
+
+	<!-- Error message -->
+	<div class="alert alert-danger text-center mt-4" id="error" style="display: none;">
+		Failed to load books. Please try again later.
+	</div>
+</div>
+
+<!-- Bootstrap JS (optional, for components like modals) -->
+<script src="/webjars/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script>
+    // Fetch list of books and render cards
+    fetch('/books')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(books => {
+            document.getElementById('loading').style.display = 'none';
+            const container = document.getElementById('book-container');
+            container.style.display = 'flex';
+
+            books.forEach(book => {
+                const card = document.createElement('div');
+                card.className = 'col';
+
+                card.innerHTML = `
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">${book.name}</h5>
+                            <p class="card-text text-muted">by ${book.author}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching books:', error);
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        });
+</script>
+</body>
+</html>
