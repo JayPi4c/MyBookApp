@@ -61,11 +61,29 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
 
             // Subscribe to SSE stream
             const evtSource = new EventSource(`${BACKEND_URL}/api/books/updates`);
-            evtSource.onmessage = function(e) {
-                console.log(e.data);
+            evtSource.onmessage = function (e) {
+                const toastBody = document.getElementById('sseToastBody');
+
+                // If your server sends JSON: parse it, else just use e.data directly
+                let msg;
+                try {
+                    const update = JSON.parse(e.data);
+                    msg = `Book "${update.bookId}" is ready! Status: ${update.status}`;
+                } catch {
+                    msg = e.data;
+                }
+
+                toastBody.textContent = msg;
+
+                // Show toast using Bootstrap API
+                const toastElement = document.getElementById('sseToast');
+                const toast = new bootstrap.Toast(toastElement, {delay: 5000}); // auto hide after 5s
+                toast.show();
+
+                // Optionally close SSE connection if it is a one-shot
                 evtSource.close();
             };
-            evtSource.onerror = function(e) {
+            evtSource.onerror = function (e) {
                 console.log("SSE connection closed or interrupted");
                 evtSource.close();
             };
