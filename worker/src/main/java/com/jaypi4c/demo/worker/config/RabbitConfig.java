@@ -6,10 +6,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    public static final String QUEUE_NAME = "ocr-jobs";
+    public static final String JOBS_QUEUE = "ocr-jobs";
+    public static final String RESULTS_QUEUE = "ocr-results";
 
     @Bean
-    public Queue ocrQueue() {
-        return new Queue(QUEUE_NAME, true);
+    public Queue jobsQueue() {
+        return new Queue(JOBS_QUEUE, true);
+    }
+
+    @Bean
+    public Queue resultsQueue() {
+        return new Queue(RESULTS_QUEUE, true);
     }
 }

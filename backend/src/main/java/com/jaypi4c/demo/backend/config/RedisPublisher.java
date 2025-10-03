@@ -1,4 +1,4 @@
-package com.jaypi4c.demo.worker.config;
+package com.jaypi4c.demo.backend.config;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

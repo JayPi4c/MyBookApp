@@ -1,5 +1,9 @@
 package com.jaypi4c.demo.backend.controller;
 
+import com.jaypi4c.demo.backend.config.RabbitConfig;
+import com.jaypi4c.demo.backend.config.RedisPublisher;
+import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
@@ -11,14 +15,17 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 public class BookUpdatesController {
     private final RedisMessageListenerContainer listenerContainer;
+    private final RedisPublisher redisPublisher;
 
-    public BookUpdatesController(RedisMessageListenerContainer listenerContainer) {
-        this.listenerContainer = listenerContainer;
+    @RabbitListener(queues = RabbitConfig.RESULTS_QUEUE)
+    public void processMessage(String message) {
+        redisPublisher.publishBookUpdate(message, "COMPLETED");
     }
 
-    @GetMapping(value="/api/books/updates", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/api/books/updates", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamUpdates() {
         SseEmitter emitter = new SseEmitter();
         MessageListener listener = (message, pattern) -> {

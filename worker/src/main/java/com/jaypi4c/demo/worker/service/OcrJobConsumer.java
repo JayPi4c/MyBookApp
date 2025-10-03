@@ -1,17 +1,17 @@
 package com.jaypi4c.demo.worker.service;
 
 import com.jaypi4c.demo.worker.config.RabbitConfig;
-import com.jaypi4c.demo.worker.config.RedisPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class OcrJobConsumer {
-    private final RedisPublisher redisPublisher;
+    private final RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues = RabbitConfig.QUEUE_NAME)
+    @RabbitListener(queues = RabbitConfig.JOBS_QUEUE)
     public void receiveOCRJob(String bookName) throws InterruptedException {
 
         System.out.println("Processing " + bookName);
@@ -20,7 +20,6 @@ public class OcrJobConsumer {
 
         System.out.println("Finished processing " + bookName);
 
-        redisPublisher.publishBookUpdate(bookName, "COMPLETED");
-
+        rabbitTemplate.convertAndSend(RabbitConfig.RESULTS_QUEUE, bookName);
     }
 }

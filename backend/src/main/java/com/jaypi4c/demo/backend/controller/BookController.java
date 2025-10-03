@@ -30,9 +30,7 @@ public class BookController implements BooksApiDelegate {
     public ResponseEntity<BookDTODto> booksPost(BookDTODto bookDTODto) {
         repository.save(bookDTODto);
 
-
-        rabbitTemplate.convertAndSend(RabbitConfig.QUEUE_NAME, bookDTODto.getName());
-
+        rabbitTemplate.convertAndSend(RabbitConfig.JOBS_QUEUE, bookDTODto.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(bookDTODto);
     }
