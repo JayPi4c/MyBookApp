@@ -14,11 +14,26 @@ services:
     depends_on:
       - frontend
       - backend
+  database:
+    image: postgres:17.4-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      PGUSER: postgres
   frontend:
     build:
       dockerfile: frontend/Dockerfile
       context: ..
     container_name: frontend_demo
+    depends_on:
+      - redis
+      - rabbitmq
+  frontend2:
+    build:
+      dockerfile: frontend/Dockerfile
+      context: ..
+    container_name: frontend_demo2
     depends_on:
       - redis
       - rabbitmq
@@ -29,15 +44,42 @@ services:
     environment:
       #       SERVER_FORWARD-HEADERS-STRATEGY: framework
       DEMO_SECURITY_ALLOWED-ORIGINS: http://localhost
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
     container_name: backend_demo
     depends_on:
       - redis
       - rabbitmq
+      - database
+  backend2:
+    build:
+      dockerfile: backend/Dockerfile
+      context: ..
+    environment:
+      #       SERVER_FORWARD-HEADERS-STRATEGY: framework
+      DEMO_SECURITY_ALLOWED-ORIGINS: http://localhost
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    container_name: backend_demo2
+    depends_on:
+      - redis
+      - rabbitmq
+      - database
   worker:
     build:
       dockerfile: worker/Dockerfile
       context: ..
     container_name: worker_demo
+    depends_on:
+      - redis
+      - rabbitmq
+  worker2:
+    build:
+      dockerfile: worker/Dockerfile
+      context: ..
+    container_name: worker_demo2
     depends_on:
       - redis
       - rabbitmq
