@@ -3,10 +3,31 @@
 <body>
 <div th:fragment="appFooter">
 	<footer class="bg-light text-center py-3 mt-auto border-top">
-		<div class="container">
-			<span class="text-muted">&copy; 2025 MyBookApp</span>
+		<div class="container d-flex justify-content-between align-items-center">
+
+			<!-- Left side: copyright text (i18n-ready) -->
+			<span class="text-muted">
+                &copy; 2025 [[#{footer.text}]]
+            </span>
+
+			<!-- Right side: language selector -->
+			<form class="d-flex align-items-center" id="lang-form">
+				<label class="me-2 mb-0" for="lang-select">[[#{footer.language}]]</label>
+				<select class="form-select form-select-sm w-auto" id="lang-select" name="lang">
+					<option th:selected="${#locale.language == 'en'}" value="en">English</option>
+					<option th:selected="${#locale.language == 'de'}" value="de">Deutsch</option>
+				</select>
+			</form>
 		</div>
 	</footer>
+
+	<script>
+        document.getElementById('lang-select').addEventListener('change', function () {
+            const selectedLang = this.value;
+            const currentUrl = window.location.pathname; // keep path
+            window.location.href = currentUrl + '?lang=' + selectedLang;
+        });
+	</script>
 </div>
 </body>
 </html>

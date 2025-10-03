@@ -9,7 +9,7 @@
 <body class="d-flex flex-column min-vh-100">
 
 <div class="container my-5 flex-grow-1">
-	<h1 class="mb-4 text-center">📚 Book Management</h1>
+	<h1 class="mb-4 text-center">📚 [[#{app.title}]]</h1>
 
 	<!-- Tabs navigation -->
 	<ul class="nav nav-tabs" id="bookTab" role="tablist">
@@ -17,14 +17,14 @@
 			<button aria-controls="list" aria-selected="true" class="nav-link active" data-bs-target="#list"
 					data-bs-toggle="tab"
 					id="list-tab" role="tab" type="button">
-				Available Books
+				[[#{tab.available}]]
 			</button>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button aria-controls="add" aria-selected="false" class="nav-link" data-bs-target="#add"
 					data-bs-toggle="tab" id="add-tab"
 					role="tab" type="button">
-				Add New Book
+				[[#{tab.add}]]
 			</button>
 		</li>
 
@@ -32,7 +32,7 @@
 		<li class="nav-item ms-auto" role="presentation">
 			<button aria-controls="about" aria-selected="false"
 					class="nav-link" data-bs-target="#about" data-bs-toggle="tab"
-					id="about-tab" role="tab" type="button">About
+					id="about-tab" role="tab" type="button">[[#{tab.about}]]
 			</button>
 		</li>
 	</ul>
