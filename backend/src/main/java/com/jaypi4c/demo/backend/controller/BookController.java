@@ -3,7 +3,8 @@ package com.jaypi4c.demo.backend.controller;
 import com.jaypi4c.demo.backend.api.BooksApiDelegate;
 import com.jaypi4c.demo.backend.config.RabbitConfig;
 import com.jaypi4c.demo.backend.dto.BookDTODto;
-import com.jaypi4c.demo.backend.repository.InMemoryRepository;
+import com.jaypi4c.demo.backend.entitiy.Book;
+import com.jaypi4c.demo.backend.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,17 +19,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController implements BooksApiDelegate {
 
-    private final InMemoryRepository repository;
+    private final BookRepository repository;
     private final RabbitTemplate rabbitTemplate;
 
     @Override
     public ResponseEntity<List<BookDTODto>> booksGet() {
-        return ResponseEntity.ok(repository.findAll());
+        return ResponseEntity.ok(repository.findAll()
+                .stream()
+                .map(entity -> {
+                    BookDTODto dto = new BookDTODto();
+                    dto.setName(entity.getBookName());
+                    dto.setAuthor(entity.getAuthor());
+                    return dto;
+                }).toList());
     }
 
     @Override
     public ResponseEntity<BookDTODto> booksPost(BookDTODto bookDTODto) {
-        repository.save(bookDTODto);
+        Book book = new Book();
+        book.setBookName(bookDTODto.getName());
+        book.setAuthor(bookDTODto.getAuthor());
+        repository.save(book);
 
         rabbitTemplate.convertAndSend(RabbitConfig.JOBS_QUEUE, bookDTODto.getName());
 

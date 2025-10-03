@@ -1,1 +1,9 @@
 demo.security.allowed-origins: http://localhost:8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    generate-ddl: true
+    hibernate.ddl-auto: update
