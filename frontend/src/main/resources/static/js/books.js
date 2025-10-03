@@ -9,7 +9,7 @@ function fetchBooks() {
     bookContainer.style.display = 'none';
     errorBox.style.display = 'none';
 
-    fetch('/books')
+    fetch(`${BACKEND_URL}/api/v1/books`)
         .then(resp => {
             if (!resp.ok) throw new Error("Failed to load");
             return resp.json();
@@ -43,7 +43,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
     const name = document.getElementById('book-name').value.trim();
     const author = document.getElementById('book-author').value.trim();
 
-    fetch('/books', {
+    fetch(`${BACKEND_URL}/api/v1/books`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({name, author})
