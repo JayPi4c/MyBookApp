@@ -1,8 +1,8 @@
-package com.jaypi4c.demo.api.controller;
+package com.jaypi4c.demo.backend.controller;
 
-import com.jaypi4c.demo.api.BooksApiDelegate;
-import com.jaypi4c.demo.dto.BookDTODto;
-import com.jaypi4c.demo.repository.InMemoryRepository;
+import com.jaypi4c.demo.backend.api.BooksApiDelegate;
+import com.jaypi4c.demo.backend.dto.BookDTODto;
+import com.jaypi4c.demo.backend.repository.InMemoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

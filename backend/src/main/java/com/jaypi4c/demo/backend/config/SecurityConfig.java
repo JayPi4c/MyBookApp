@@ -1,6 +1,6 @@
-package com.jaypi4c.demo.config;
+package com.jaypi4c.demo.backend.config;
 
-import com.jaypi4c.demo.autoconfigure.SecurityProperties;
+import com.jaypi4c.demo.backend.autoconfigure.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

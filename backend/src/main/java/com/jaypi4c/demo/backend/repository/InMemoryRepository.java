@@ -1,6 +1,6 @@
-package com.jaypi4c.demo.repository;
+package com.jaypi4c.demo.backend.repository;
 
-import com.jaypi4c.demo.dto.BookDTODto;
+import com.jaypi4c.demo.backend.dto.BookDTODto;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

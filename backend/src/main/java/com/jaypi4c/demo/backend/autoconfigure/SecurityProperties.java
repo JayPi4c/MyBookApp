@@ -1,4 +1,4 @@
-package com.jaypi4c.demo.autoconfigure;
+package com.jaypi4c.demo.backend.autoconfigure;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
