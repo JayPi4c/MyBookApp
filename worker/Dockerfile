@@ -12,7 +12,7 @@ WORKDIR /app
 RUN chmod +x ./mvnw
 
 # Build the application
-RUN ./mvnw clean package -pl backend -am -DskipTests --activate-profiles docker
+RUN ./mvnw clean package -pl worker -am -DskipTests --activate-profiles docker
 
 # Phase 2: Runtime
 FROM eclipse-temurin:25-jre-alpine
@@ -30,13 +30,11 @@ RUN  mkdir /app && \
     chown -R demo:demo /app
 
 # Copy the JAR from the build stage
-COPY --from=build /app/backend/target/backend.jar backend.jar
+COPY --from=build /app/worker/target/worker.jar worker.jar
 
 # Change to 'demo' user
 USER demo
 
-EXPOSE 8081
-
 # Run the application
 ENV SPRING_PROFILES_ACTIVE=docker
-CMD java -jar backend.jar
+CMD java -jar worker.jar

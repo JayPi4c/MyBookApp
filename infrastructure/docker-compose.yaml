@@ -1,5 +1,9 @@
 name: demo
 services:
+  redis:
+    image: redis:7.0
+  rabbitmq:
+    image: rabbitmq:3-management
   ingress:
     image: nginx:latest
     container_name: nginx_demo
@@ -15,6 +19,9 @@ services:
       dockerfile: frontend/Dockerfile
       context: ..
     container_name: frontend_demo
+    depends_on:
+      - redis
+      - rabbitmq
   backend:
     build:
       dockerfile: backend/Dockerfile
@@ -23,3 +30,14 @@ services:
       #       SERVER_FORWARD-HEADERS-STRATEGY: framework
       DEMO_SECURITY_ALLOWED-ORIGINS: http://localhost
     container_name: backend_demo
+    depends_on:
+      - redis
+      - rabbitmq
+  worker:
+    build:
+      dockerfile: worker/Dockerfile
+      context: ..
+    container_name: worker_demo
+    depends_on:
+      - redis
+      - rabbitmq

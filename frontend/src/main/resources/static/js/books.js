@@ -58,6 +58,17 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
             successBox.style.display = 'block';
             setTimeout(() => successBox.style.display = 'none', 2000);
             fetchBooks();
+
+            // Subscribe to SSE stream
+            const evtSource = new EventSource(`${BACKEND_URL}/api/books/updates`);
+            evtSource.onmessage = function(e) {
+                console.log(e.data);
+                evtSource.close();
+            };
+            evtSource.onerror = function(e) {
+                console.log("SSE connection closed or interrupted");
+                evtSource.close();
+            };
         })
         .catch(err => {
             console.error(err);
