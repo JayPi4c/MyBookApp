@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>Book Management</title>
 	<!-- Bootstrap CSS -->
-	<link href="/webjars/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -48,7 +48,7 @@
 <!-- Footer fragment -->
 <div th:replace="~{fragments/footer :: appFooter}"></div>
 
-<script src="/webjars/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 <script src="/js/books.js"></script> <!-- keep all JS logic in one file -->
 </body>
 </html>

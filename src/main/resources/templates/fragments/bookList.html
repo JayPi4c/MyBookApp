@@ -2,8 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <!-- Books List Tab -->
-<div aria-labelledby="list-tab" class="tab-pane fade show active" id="list" role="tabpanel"
+<div aria-labelledby="list-tab"
+	 class="tab-pane fade show active"
+	 id="list"
+	 role="tabpanel"
 	 th:fragment="bookListContent">
+
+	<!-- Loading spinner -->
 	<div class="text-center my-4" id="loading">
 		<div class="spinner-border text-primary" role="status">
 			<span class="visually-hidden">Loading...</span>
@@ -12,7 +17,7 @@
 
 	<!-- Book list -->
 	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="book-container" style="display: none;">
-		<!-- Cards will be inserted here by JS -->
+		<!-- Cards inserted here by JS will still use Bootstrap's card classes -->
 	</div>
 
 	<!-- Error message -->
