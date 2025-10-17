@@ -20,7 +20,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/BookDTO'
+                  $ref: '#/components/schemas/Book'
     post:
       summary: Add a new book
       description: Creates a new book entry.
@@ -30,20 +30,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookDTO'
+              $ref: '#/components/schemas/Book'
       responses:
         '201':
           description: Book created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BookDTO'
+                $ref: '#/components/schemas/Book'
         '400':
           description: Invalid input
 
 components:
   schemas:
-    BookDTO:
+    Book:
       type: object
       properties:
         name:
