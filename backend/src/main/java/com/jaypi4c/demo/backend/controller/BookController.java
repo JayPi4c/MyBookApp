@@ -5,6 +5,7 @@ import com.jaypi4c.demo.backend.config.RabbitConfig;
 import com.jaypi4c.demo.backend.dto.BookDTODto;
 import com.jaypi4c.demo.backend.entitiy.Book;
 import com.jaypi4c.demo.backend.repository.BookRepository;
+import com.jaypi4c.demo.worker.dto.HelloProto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -41,7 +42,7 @@ public class BookController implements BooksApiDelegate {
         book.setAuthor(bookDTODto.getAuthor());
         repository.save(book);
 
-        rabbitTemplate.convertAndSend(RabbitConfig.JOBS_QUEUE, bookDTODto.getName());
+        rabbitTemplate.convertAndSend(RabbitConfig.JOBS_QUEUE, HelloProto.HelloRequest.newBuilder().setName(bookDTODto.getName()).build());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(bookDTODto);
     }

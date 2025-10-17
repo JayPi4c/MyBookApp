@@ -4,3 +4,4 @@ spring:
   jpa:
     generate-ddl: true
     hibernate.ddl-auto: update
+  amqp.deserialization.trust.all: true

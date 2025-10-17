@@ -2,6 +2,7 @@ package com.jaypi4c.demo.backend.controller;
 
 import com.jaypi4c.demo.backend.config.RabbitConfig;
 import com.jaypi4c.demo.backend.config.RedisPublisher;
+import com.jaypi4c.demo.worker.dto.HelloProto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.data.redis.connection.MessageListener;
@@ -21,8 +22,8 @@ public class BookUpdatesController {
     private final RedisPublisher redisPublisher;
 
     @RabbitListener(queues = RabbitConfig.RESULTS_QUEUE)
-    public void processMessage(String message) {
-        redisPublisher.publishBookUpdate(message, "COMPLETED");
+    public void processMessage(HelloProto.HelloResponse helloResponse) {
+        redisPublisher.publishBookUpdate(helloResponse.getGreeting(), "COMPLETED");
     }
 
     @GetMapping(value = "/api/books/updates", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
