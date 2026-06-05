@@ -40,5 +40,4 @@ public class SseEmitterRegistry {
         return clients;
     }
 
-
 }

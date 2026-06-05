@@ -1,19 +1,24 @@
 package de.jaypi4c.demo.backend.repository;
 
 import de.jaypi4c.demo.backend.entitiy.Book;
+import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.function.Function;
 
+@Primary
+@Profile("dev")
 @Repository
-public class InMemoryRepository implements JpaRepository<Book, UUID> {
+public class InMemoryRepository implements BookRepository {
 
     private final Map<UUID, Book> books;
 
@@ -35,7 +40,7 @@ public class InMemoryRepository implements JpaRepository<Book, UUID> {
         books.put(uuid2, book2);
     }
 
-
+    @Nonnull
     @Override
     public <S extends Book> S save(S entity) {
         UUID uuid = UUID.randomUUID();
@@ -44,28 +49,32 @@ public class InMemoryRepository implements JpaRepository<Book, UUID> {
         return entity;
     }
 
+    @Nonnull
     @Override
-    public <S extends Book> List<S> saveAll(Iterable<S> entities) {
+    public <S extends Book> List<S> saveAll(@Nonnull Iterable<S> entities) {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     public List<Book> findAll() {
         return new ArrayList<>(books.values());
     }
 
+    @Nonnull
     @Override
-    public Optional<Book> findById(UUID uuid) {
+    public Optional<Book> findById(@Nonnull UUID uuid) {
         return Optional.ofNullable(books.get(uuid));
     }
 
     @Override
-    public boolean existsById(UUID uuid) {
+    public boolean existsById(@Nonnull UUID uuid) {
         return books.containsKey(uuid);
     }
 
+    @Nonnull
     @Override
-    public List<Book> findAllById(Iterable<UUID> uuids) {
+    public List<Book> findAllById(@Nonnull Iterable<UUID> uuids) {
         return books.entrySet().stream().filter(entry -> {
             for (UUID uuid : uuids) {
                 if (entry.getKey().equals(uuid)) {
@@ -82,7 +91,7 @@ public class InMemoryRepository implements JpaRepository<Book, UUID> {
     }
 
     @Override
-    public void deleteById(UUID uuid) {
+    public void deleteById(@Nonnull UUID uuid) {
         books.remove(uuid);
     }
 
@@ -115,23 +124,25 @@ public class InMemoryRepository implements JpaRepository<Book, UUID> {
 
     }
 
+    @NonNull
     @Override
-    public <S extends Book> S saveAndFlush(S entity) {
+    public <S extends Book> S saveAndFlush(@Nonnull S entity) {
         return save(entity);
     }
 
+    @Nonnull
     @Override
-    public <S extends Book> List<S> saveAllAndFlush(Iterable<S> entities) {
+    public <S extends Book> List<S> saveAllAndFlush(@Nonnull Iterable<S> entities) {
         return saveAll(entities);
     }
 
     @Override
-    public void deleteAllInBatch(Iterable<Book> entities) {
+    public void deleteAllInBatch(@Nonnull Iterable<Book> entities) {
         deleteAll(entities);
     }
 
     @Override
-    public void deleteAllByIdInBatch(Iterable<UUID> uuids) {
+    public void deleteAllByIdInBatch(@Nonnull Iterable<UUID> uuids) {
         deleteAllById(uuids);
     }
 
@@ -140,64 +151,74 @@ public class InMemoryRepository implements JpaRepository<Book, UUID> {
         deleteAll();
     }
 
+    @Nonnull
     @Override
-    public Book getOne(UUID uuid) {
+    public Book getOne(@Nonnull UUID uuid) {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
-    public Book getById(UUID uuid) {
+    public Book getById(@Nonnull UUID uuid) {
         return books.get(uuid);
     }
 
+    @Nonnull
     @Override
-    public Book getReferenceById(UUID uuid) {
+    public Book getReferenceById(@Nonnull UUID uuid) {
         return books.get(uuid);
     }
 
+    @Nonnull
     @Override
-    public <S extends Book> Optional<S> findOne(Example<S> example) {
+    public <S extends Book> Optional<S> findOne(@Nonnull Example<S> example) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    public <S extends Book> List<S> findAll(@Nonnull Example<S> example) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    public <S extends Book> List<S> findAll(@Nonnull Example<S> example, @Nonnull Sort sort) {
+        throw new UnsupportedOperationException();
+
+    }
+
+    @Nonnull
+    @Override
+    public <S extends Book> Page<S> findAll(@Nonnull Example<S> example, @Nonnull Pageable pageable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Book> List<S> findAll(Example<S> example) {
+    public <S extends Book> long count(@Nonnull Example<S> example) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Book> List<S> findAll(Example<S> example, Sort sort) {
-        throw new UnsupportedOperationException();
-
-    }
-
-    @Override
-    public <S extends Book> Page<S> findAll(Example<S> example, Pageable pageable) {
+    public <S extends Book> boolean exists(@Nonnull Example<S> example) {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
-    public <S extends Book> long count(Example<S> example) {
+    public <S extends Book, R> R findBy(@Nonnull Example<S> example, @Nonnull Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
-    public <S extends Book> boolean exists(Example<S> example) {
+    public List<Book> findAll(@Nonnull Sort sort) {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
-    public <S extends Book, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<Book> findAll(Sort sort) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Page<Book> findAll(Pageable pageable) {
+    public Page<Book> findAll(@Nonnull Pageable pageable) {
         throw new UnsupportedOperationException();
     }
 }

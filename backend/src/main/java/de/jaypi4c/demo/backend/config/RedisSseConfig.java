@@ -3,11 +3,11 @@ package de.jaypi4c.demo.backend.config;
 import de.jaypi4c.demo.backend.components.BookUpdateListener;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
 @RequiredArgsConstructor
 public class RedisSseConfig {
 

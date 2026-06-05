@@ -8,7 +8,6 @@ import de.jaypi4c.demo.backend.entitiy.Book;
 import de.jaypi4c.demo.backend.registry.SseEmitterRegistry;
 import de.jaypi4c.demo.backend.repository.BookRepository;
 import de.jaypi4c.demo.worker.dto.Worker;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -27,11 +26,6 @@ public class BookController implements BooksApiDelegate {
     private final BookRepository repository;
     private final RabbitTemplate rabbitTemplate;
     private final SseEmitterRegistry sseEmitterRegistry;
-
-    @PostConstruct
-    public void init() {
-        log.info("BookController started");
-    }
 
     @Override
     public ResponseEntity<List<BookDto>> booksGet() {

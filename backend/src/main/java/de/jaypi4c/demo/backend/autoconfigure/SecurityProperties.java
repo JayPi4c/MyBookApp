@@ -10,8 +10,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "demo.security")
 public class SecurityProperties {
 
-    /**
-     * Allowed origins for CORS.
-     */
+    /// Allowed origins for CORS.
     private List<String> allowedOrigins = new ArrayList<>();
 }

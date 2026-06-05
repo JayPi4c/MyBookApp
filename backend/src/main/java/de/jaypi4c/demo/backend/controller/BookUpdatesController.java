@@ -1,7 +1,7 @@
 package de.jaypi4c.demo.backend.controller;
 
+import de.jaypi4c.demo.backend.components.RedisPublisher;
 import de.jaypi4c.demo.backend.config.RabbitConfig;
-import de.jaypi4c.demo.backend.config.RedisPublisher;
 import de.jaypi4c.demo.backend.registry.SseEmitterRegistry;
 import de.jaypi4c.demo.worker.dto.Worker;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class BookUpdatesController {
 
     @RabbitListener(queues = RabbitConfig.RESULTS_QUEUE)
     public void processMessage(Worker.Response response) {
-        redisPublisher.publishBookUpdate(response.getJobId(), response.getBookname(), "COMPLETED");
+        redisPublisher.publishBookUpdate(UUID.fromString(response.getJobId()), response.getBookname(), "COMPLETED");
     }
 
     @GetMapping(value = "/api/books/jobs/{jobId}/updates", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
