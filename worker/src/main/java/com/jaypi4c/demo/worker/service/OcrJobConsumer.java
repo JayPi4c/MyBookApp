@@ -19,7 +19,7 @@ public class OcrJobConsumer {
 
         log.info("Processing: {}", request.getBookname());
 
-        Thread.sleep(2000); // Simulate time taken to process the job
+        Thread.sleep(2 * 60 * 1000); // Simulate time taken to process the job
 
         log.info("Finished processing: {}", request.getBookname());
         Worker.Response response = Worker.Response.newBuilder().setBookname(request.getBookname()).build();

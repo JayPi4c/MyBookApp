@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,10 +29,12 @@ public class BookUpdatesController {
     public void processMessage(Worker.Response response) {
         redisPublisher.publishBookUpdate(response.getBookname(), "COMPLETED");
     }
-
+    private final ScheduledExecutorService scheduler =
+            Executors.newScheduledThreadPool(1);
     @GetMapping(value = "/api/books/updates", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter streamUpdates() {
-        SseEmitter emitter = new SseEmitter();
+    public SseEmitter streamUpdates() throws IOException {
+        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); // set timeout to be indefinite
+        emitter.send(SseEmitter.event().comment("connected")); // send initial connected event for the headers to be sent
         MessageListener listener = (message, pattern) -> {
             try {
                 emitter.send(message.toString());
@@ -39,11 +45,30 @@ public class BookUpdatesController {
         ChannelTopic topic = new ChannelTopic("book-updates");
         listenerContainer.addMessageListener(listener, topic);
 
-        // Clean up when emitter completes or times out
-        emitter.onCompletion(() -> listenerContainer.removeMessageListener(listener, topic));
-        emitter.onTimeout(() -> {
+
+        // Send heartbeat every 30 seconds
+        ScheduledFuture<?> heartbeatTask =
+                scheduler.scheduleAtFixedRate(() -> {
+                    try {
+                        emitter.send(
+                                SseEmitter.event()
+                                        .comment("heartbeat")
+                        );
+                    } catch (Exception e) {
+                        emitter.completeWithError(e);
+                    }
+                }, 30, 30, TimeUnit.SECONDS);
+
+        Runnable cleanup = () -> {
+            heartbeatTask.cancel(true);
             listenerContainer.removeMessageListener(listener, topic);
-            emitter.complete();
+        };
+
+        // Clean up when emitter completes or times out
+        emitter.onCompletion(() -> cleanup.run());
+        emitter.onTimeout(() -> {
+    cleanup.run();
+    emitter.complete();
         });
         return emitter;
     }
