@@ -37,7 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
+                $ref: '#/components/schemas/BookTask'
         '400':
           description: Invalid input
 
@@ -55,3 +55,13 @@ components:
       required:
         - name
         - author
+    BookTask:
+      type: object
+      properties:
+        book:
+          $ref: '#/components/schemas/Book'
+        jobId:
+          type: string
+          format: uuid
+      required:
+        - jobId

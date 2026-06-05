@@ -48,7 +48,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jaypi4c.demo.worker.WorkerApp</mainClass>
+                    <mainClass>de.jaypi4c.demo.worker.WorkerApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>

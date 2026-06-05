@@ -115,8 +115,8 @@
                                 ./openapi.yaml
                             </inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>com.jaypi4c.demo.backend.api</apiPackage>
-                            <modelPackage>com.jaypi4c.demo.backend.dto</modelPackage>
+                            <apiPackage>de.jaypi4c.demo.backend.api</apiPackage>
+                            <modelPackage>de.jaypi4c.demo.backend.dto</modelPackage>
                             <generateModelTests>false</generateModelTests>
                             <generateApiTests>false</generateApiTests>
                             <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
@@ -145,7 +145,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jaypi4c.demo.backend.BackendApp</mainClass>
+                    <mainClass>de.jaypi4c.demo.backend.BackendApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>

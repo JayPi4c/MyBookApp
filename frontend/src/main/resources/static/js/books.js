@@ -52,7 +52,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
             if (resp.status === 201) return resp.json();
             else throw new Error("Invalid input");
         })
-        .then(newBook => {
+        .then(bookTask => {
             document.getElementById('book-name').value = '';
             document.getElementById('book-author').value = '';
             successBox.style.display = 'block';
@@ -60,7 +60,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
             fetchBooks();
 
             // Subscribe to SSE stream
-            const evtSource = new EventSource(`${BACKEND_URL}/api/books/updates`);
+            const evtSource = new EventSource(`${BACKEND_URL}/api/books/jobs/${bookTask.jobId}/updates`);
             evtSource.onmessage = function (e) {
                 const toastBody = document.getElementById('sseToastBody');
 
