@@ -4,7 +4,7 @@ import de.jaypi4c.demo.backend.api.BooksApiDelegate;
 import de.jaypi4c.demo.backend.config.RabbitConfig;
 import de.jaypi4c.demo.backend.dto.BookDto;
 import de.jaypi4c.demo.backend.dto.BookTaskDto;
-import de.jaypi4c.demo.backend.entitiy.Book;
+import de.jaypi4c.demo.backend.entity.Book;
 import de.jaypi4c.demo.backend.registry.SseEmitterRegistry;
 import de.jaypi4c.demo.backend.repository.BookRepository;
 import de.jaypi4c.demo.worker.dto.Worker;

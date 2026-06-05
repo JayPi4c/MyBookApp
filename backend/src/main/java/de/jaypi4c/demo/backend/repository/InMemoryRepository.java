@@ -1,6 +1,6 @@
 package de.jaypi4c.demo.backend.repository;
 
-import de.jaypi4c.demo.backend.entitiy.Book;
+import de.jaypi4c.demo.backend.entity.Book;
 import jakarta.annotation.Nonnull;
 import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Primary;

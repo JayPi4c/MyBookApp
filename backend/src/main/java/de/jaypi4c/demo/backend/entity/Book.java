@@ -1,4 +1,4 @@
-package de.jaypi4c.demo.backend.entitiy;
+package de.jaypi4c.demo.backend.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

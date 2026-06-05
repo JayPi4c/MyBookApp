@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.6</version>
+        <version>4.0.6</version>
         <relativePath/>
     </parent>
     <groupId>com.jaypi4c</groupId>
@@ -23,8 +23,9 @@
     <properties>
         <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <protobuf.version>4.33.0</protobuf.version>
+        <protobuf.version>4.35.0</protobuf.version>
         <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
+        <os.maven.plugin.version>1.7.1</os.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -47,7 +48,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -73,7 +73,7 @@
             <extension>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>${os.maven.plugin.version}</version>
             </extension>
         </extensions>
         <pluginManagement>
