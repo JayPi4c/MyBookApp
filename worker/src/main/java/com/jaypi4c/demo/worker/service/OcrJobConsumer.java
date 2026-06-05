@@ -1,7 +1,7 @@
 package com.jaypi4c.demo.worker.service;
 
 import com.jaypi4c.demo.worker.config.RabbitConfig;
-import com.jaypi4c.demo.worker.dto.Worker;
+import de.jaypi4c.demo.worker.dto.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -17,12 +17,16 @@ public class OcrJobConsumer {
     @RabbitListener(queues = RabbitConfig.JOBS_QUEUE)
     public void receiveOCRJob(Worker.Request request) throws InterruptedException {
 
-        log.info("Processing: {}", request.getBookname());
+        log.info("{}: Processing: {}", request.getJobId(), request.getBookname());
 
-        Thread.sleep(2 * 60 * 1000); // Simulate time taken to process the job
+        Thread.sleep(2 * 1000); // Simulate time taken to process the job
 
-        log.info("Finished processing: {}", request.getBookname());
-        Worker.Response response = Worker.Response.newBuilder().setBookname(request.getBookname()).build();
+        log.info("{}: Finished processing: {}", request.getJobId(), request.getBookname());
+        Worker.Response response = Worker.Response
+                .newBuilder()
+                .setBookname(request.getBookname())
+                .setJobId(request.getJobId())
+                .build();
         rabbitTemplate.convertAndSend(RabbitConfig.RESULTS_QUEUE, response);
     }
 }

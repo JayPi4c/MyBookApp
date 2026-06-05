@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "com.jaypi4c.demo.worker.dto";
+option java_package = "de.jaypi4c.demo.worker.dto";
 option java_outer_classname = "Worker";
 
 package worker;
@@ -8,9 +8,11 @@ package worker;
 // The request that a client sends to the service
 message Request {
   string bookname = 1;
+  string jobId = 2;
 }
 
 // The response that the service returns
 message Response {
   string bookname = 1;
+  string jobId = 2;
 }

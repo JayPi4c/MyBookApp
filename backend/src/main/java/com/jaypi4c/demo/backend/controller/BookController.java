@@ -1,27 +1,36 @@
 package com.jaypi4c.demo.backend.controller;
 
-import com.jaypi4c.demo.backend.api.BooksApiDelegate;
 import com.jaypi4c.demo.backend.config.RabbitConfig;
-import com.jaypi4c.demo.backend.dto.BookDto;
 import com.jaypi4c.demo.backend.entitiy.Book;
+import com.jaypi4c.demo.backend.registry.SseEmitterRegistry;
 import com.jaypi4c.demo.backend.repository.BookRepository;
-import com.jaypi4c.demo.worker.dto.Worker;
+import de.jaypi4c.demo.backend.api.BooksApiDelegate;
+import de.jaypi4c.demo.backend.dto.BookDto;
+import de.jaypi4c.demo.worker.dto.Worker;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
-@Controller
+@Component
 @RequiredArgsConstructor
 public class BookController implements BooksApiDelegate {
 
     private final BookRepository repository;
     private final RabbitTemplate rabbitTemplate;
+    private final SseEmitterRegistry sseEmitterRegistry;
+
+    @PostConstruct
+    public void init() {
+        log.info("BookController started");
+    }
 
     @Override
     public ResponseEntity<List<BookDto>> booksGet() {
@@ -37,11 +46,18 @@ public class BookController implements BooksApiDelegate {
 
     @Override
     public ResponseEntity<BookDto> booksPost(BookDto bookDto) {
+        UUID jobId = sseEmitterRegistry.register();
+
         Book book = new Book();
         book.setBookName(bookDto.getName());
         book.setAuthor(bookDto.getAuthor());
         repository.save(book);
-        Worker.Request request = Worker.Request.newBuilder().setBookname(bookDto.getName()).build();
+
+        Worker.Request request = Worker.Request
+                .newBuilder()
+                .setBookname(bookDto.getName())
+                .setJobId(jobId.toString())
+                .build();
         rabbitTemplate.convertAndSend(RabbitConfig.JOBS_QUEUE, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookDto);
     }

@@ -2,6 +2,7 @@ const bookContainer = document.getElementById('book-container');
 const loadingSpinner = document.getElementById('loading');
 const errorBox = document.getElementById('error');
 const successBox = document.getElementById('add-success');
+const uuid = self.crypto.randomUUID();
 
 function fetchBooks() {
     loadingSpinner.style.display = 'block';
@@ -9,7 +10,7 @@ function fetchBooks() {
     bookContainer.style.display = 'none';
     errorBox.style.display = 'none';
 
-    fetch(`${BACKEND_URL}/api/v1/books`)
+    fetch(`${BACKEND_URL}/api/v1/books?clientId=${uuid}`)
         .then(resp => {
             if (!resp.ok) throw new Error("Failed to load");
             return resp.json();
@@ -43,7 +44,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
     const name = document.getElementById('book-name').value.trim();
     const author = document.getElementById('book-author').value.trim();
 
-    fetch(`${BACKEND_URL}/api/v1/books`, {
+    fetch(`${BACKEND_URL}/api/v1/books?clientId=${uuid}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({name, author})
@@ -60,7 +61,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
             fetchBooks();
 
             // Subscribe to SSE stream
-            const evtSource = new EventSource(`${BACKEND_URL}/api/books/updates`);
+            const evtSource = new EventSource(`${BACKEND_URL}/api/books/updates?clientId=${uuid}`);
             evtSource.onmessage = function (e) {
                 const toastBody = document.getElementById('sseToastBody');
 

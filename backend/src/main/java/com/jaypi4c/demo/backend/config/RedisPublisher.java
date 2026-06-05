@@ -11,8 +11,9 @@ public class RedisPublisher {
         this.template = template;
     }
 
-    public void publishBookUpdate(String bookName, String status) {
-        String msg = String.format("{\"bookId\":\"%s\",\"status\":\"%s\"}", bookName, status);
+    public void publishBookUpdate(String jobId, String bookName, String status) {
+        // TODO fix sneaky hack to prepend jobId via "clientId|" -> use proper template
+        String msg = String.format("%s|{\"bookId\":\"%s\",\"status\":\"%s\"}", jobId, bookName, status);
         template.convertAndSend("book-updates", msg);
     }
 }
