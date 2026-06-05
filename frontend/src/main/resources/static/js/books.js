@@ -2,7 +2,6 @@ const bookContainer = document.getElementById('book-container');
 const loadingSpinner = document.getElementById('loading');
 const errorBox = document.getElementById('error');
 const successBox = document.getElementById('add-success');
-const uuid = self.crypto.randomUUID();
 
 function fetchBooks() {
     loadingSpinner.style.display = 'block';
@@ -10,7 +9,7 @@ function fetchBooks() {
     bookContainer.style.display = 'none';
     errorBox.style.display = 'none';
 
-    fetch(`${BACKEND_URL}/api/v1/books?clientId=${uuid}`)
+    fetch(`${BACKEND_URL}/api/v1/books`)
         .then(resp => {
             if (!resp.ok) throw new Error("Failed to load");
             return resp.json();
@@ -44,7 +43,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
     const name = document.getElementById('book-name').value.trim();
     const author = document.getElementById('book-author').value.trim();
 
-    fetch(`${BACKEND_URL}/api/v1/books?clientId=${uuid}`, {
+    fetch(`${BACKEND_URL}/api/v1/books`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({name, author})
@@ -53,7 +52,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
             if (resp.status === 201) return resp.json();
             else throw new Error("Invalid input");
         })
-        .then(newBook => {
+        .then(bookTask => {
             document.getElementById('book-name').value = '';
             document.getElementById('book-author').value = '';
             successBox.style.display = 'block';
@@ -61,7 +60,7 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
             fetchBooks();
 
             // Subscribe to SSE stream
-            const evtSource = new EventSource(`${BACKEND_URL}/api/books/updates?clientId=${uuid}`);
+            const evtSource = new EventSource(`${BACKEND_URL}/api/books/jobs/${bookTask.jobId}/updates`);
             evtSource.onmessage = function (e) {
                 const toastBody = document.getElementById('sseToastBody');
 

@@ -145,7 +145,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jaypi4c.demo.backend.BackendApp</mainClass>
+                    <mainClass>de.jaypi4c.demo.backend.BackendApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>

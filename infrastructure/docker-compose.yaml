@@ -52,21 +52,21 @@ services:
       - redis
       - rabbitmq
       - database
-  # backend2:
-  #   build:
-  #     dockerfile: backend/Dockerfile
-  #     context: ..
-  #   environment:
-  #     #       SERVER_FORWARD-HEADERS-STRATEGY: framework
-  #     DEMO_SECURITY_ALLOWED-ORIGINS: http://localhost
-  #     SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
-  #     SPRING_DATASOURCE_USERNAME: postgres
-  #     SPRING_DATASOURCE_PASSWORD: postgres
-  #   container_name: backend_demo2
-  #   depends_on:
-  #     - redis
-  #     - rabbitmq
-  #     - database
+  backend2:
+    build:
+      dockerfile: backend/Dockerfile
+      context: ..
+    environment:
+      #       SERVER_FORWARD-HEADERS-STRATEGY: framework
+      DEMO_SECURITY_ALLOWED-ORIGINS: http://localhost
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    container_name: backend_demo2
+    depends_on:
+      - redis
+      - rabbitmq
+      - database
   worker:
     build:
       dockerfile: worker/Dockerfile
