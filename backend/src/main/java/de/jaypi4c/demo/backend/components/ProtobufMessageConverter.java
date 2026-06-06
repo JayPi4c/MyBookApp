@@ -1,4 +1,4 @@
-package de.jaypi4c.demo.backend.config;
+package de.jaypi4c.demo.backend.components;
 
 import com.google.protobuf.Parser;
 import jakarta.annotation.Nonnull;

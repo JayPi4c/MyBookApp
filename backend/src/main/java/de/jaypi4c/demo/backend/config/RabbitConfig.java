@@ -1,5 +1,6 @@
 package de.jaypi4c.demo.backend.config;
 
+import de.jaypi4c.demo.backend.components.ProtobufMessageConverter;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
